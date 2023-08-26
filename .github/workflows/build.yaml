@@ -33,4 +33,4 @@ jobs:
         run: |
           cd catalog-service
           chmod +x gradlew
-          ./gradlew build
+          ./gradlew clean build
