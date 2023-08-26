@@ -14,5 +14,15 @@ spring:
     config:
       server:
         git:
-          uri:
+          uri: https://github.com/Chitranshagarwal2000/cloud-native-practice.git
           default-label: main
+          timeout: 5
+          force-pull: true
+          searchPaths: config-repo
+          clone-on-start: true
+          username: chitranshagarwal2000
+          password: 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
+
+logging:
+  level:
+    org.springframework: TRACE
