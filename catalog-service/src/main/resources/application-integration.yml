@@ -3,6 +3,11 @@ spring:
     name: catalog-service
   datasource:
     url: jdbc:tc:postgresql:latest:///
+  config:
+    import: "optional:configserver:"
+  cloud:
+    config:
+      fail-fast: false
   sql:
     init:
       mode: always
