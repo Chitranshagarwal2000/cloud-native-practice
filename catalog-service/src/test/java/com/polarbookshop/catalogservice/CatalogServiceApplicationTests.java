@@ -18,7 +18,7 @@ class CatalogServiceApplicationTests {
 
 	@Test
 	void whenPostRequestThenBookCreated() {
-		Book expectedBook = Book.of("1231231231", "Title", "Author", 12.20);
+		Book expectedBook = Book.of("1231231231", "Title", "Author", 12.20, "Polarsophia");
 		webTestClient.post()
 				.uri("/books")
 				.bodyValue(expectedBook)

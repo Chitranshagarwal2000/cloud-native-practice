@@ -23,14 +23,14 @@ class BookValidationTests {
 
     @Test
     void whenAllFieldsAreCorrectThenValidationSucceeds() {
-        Book book = Book.of("1234567890", "Title", "Author", 9.90);
+        Book book = Book.of("1234567890", "Title", "Author", 9.90, "Polarsophia");
         Set<ConstraintViolation<Book>> violations = validator.validate(book);
         Assertions.assertThat(violations).isEmpty();
     }
 
     @Test
     void whenIsbnIsInvalidAndAnErrorIsThrown() {
-        Book book = Book.of("1234567890A", "Title", "Author", 9.90);
+        Book book = Book.of("1234567890A", "Title", "Author", 9.90, "Polarsophia");
         Set<ConstraintViolation<Book>> violations = validator.validate(book);
         Assertions.assertThat(violations).hasSize(1);
         Assertions.assertThat(violations.iterator().next().getMessage()).isEqualTo("The ISBN format must be valid");
