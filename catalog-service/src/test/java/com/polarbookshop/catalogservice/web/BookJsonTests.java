@@ -42,7 +42,7 @@ class BookJsonTests {
                 """;
         assertThat(json.parse(content))
                 .usingRecursiveAssertion()
-                .isEqualTo(Book.of("1234567890", "Title", "Author", 12.32, "Polarsophia"));
+                .isEqualTo(Book.of("1234567890", "Title", "Author", 12.32, null));
     }
 
 }
