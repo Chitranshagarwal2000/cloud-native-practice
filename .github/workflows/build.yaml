@@ -61,7 +61,6 @@ jobs:
           with:
             distribution: temurin
             java-version: 17
-            cache: gradle
           run: |
             cd catalog-service
             chmod +x gradlew
