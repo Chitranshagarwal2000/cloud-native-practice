@@ -1,8 +1,11 @@
 package com.polarbookshop.catalogservice.web;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import com.polarbookshop.catalogservice.domain.BookAlreadyExistsException;
 import com.polarbookshop.catalogservice.domain.BookNotFoundException;
-import org.apache.commons.lang3.StringUtils;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -10,30 +13,31 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-import java.util.Map;
-import java.util.stream.Collectors;
-
 @RestControllerAdvice
 public class BookControllerAdvice {
 
-    @ResponseStatus(HttpStatus.NOT_FOUND)
     @ExceptionHandler(BookNotFoundException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
     String bookNotFoundHandler(BookNotFoundException ex) {
         return ex.getMessage();
     }
 
-    @ResponseStatus(HttpStatus.UNPROCESSABLE_ENTITY)
     @ExceptionHandler(BookAlreadyExistsException.class)
-    String bookAlreadyExists(BookAlreadyExistsException ex) {
+    @ResponseStatus(HttpStatus.UNPROCESSABLE_ENTITY)
+    String bookAlreadyExistsHandler(BookAlreadyExistsException ex) {
         return ex.getMessage();
     }
 
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    @ExceptionHandler(MethodArgumentNotValidException.class)
-    public Map<String, String> handleRequestValidException(MethodArgumentNotValidException exception) {
-        return exception.getBindingResult()
-                .getAllErrors()
-                .stream()
-                .collect(Collectors.toMap(error -> ((FieldError) error).getField(), objectError -> StringUtils.defaultIfBlank(objectError.getDefaultMessage(), "")));
-    }
+	@ExceptionHandler(MethodArgumentNotValidException.class)
+	@ResponseStatus(HttpStatus.BAD_REQUEST)
+	public Map<String, String> handleValidationExceptions(MethodArgumentNotValidException ex) {
+		var errors = new HashMap<String, String>();
+		ex.getBindingResult().getAllErrors().forEach(error -> {
+			String fieldName = ((FieldError) error).getField();
+			String errorMessage = error.getDefaultMessage();
+			errors.put(fieldName, errorMessage);
+		});
+		return errors;
+	}
+
 }

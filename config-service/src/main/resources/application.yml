@@ -1,5 +1,6 @@
 server:
   port: 8888
+  shutdown: graceful
   tomcat:
     connection-timeout: 2s
     keep-alive-timeout: 15s
@@ -10,19 +11,14 @@ server:
 spring:
   application:
     name: config-service
+  lifecycle:
+    timeout-per-shutdown-phase: 15s
   cloud:
     config:
       server:
         git:
-          uri: https://github.com/Chitranshagarwal2000/cloud-native-practice.git
+          uri: https://github.com/PolarBookshop/config-repo
           default-label: main
           timeout: 5
-          force-pull: true
-          searchPaths: config-repo
           clone-on-start: true
-          username: chitranshagarwal2000
-          password: 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
-
-logging:
-  level:
-    org.springframework: TRACE
+          force-pull: true
